@@ -21,7 +21,9 @@ export async function addDocument(req, res) {
     await MongoDocument.create({ docId: id, text });
 
     console.log("✅ Document stored successfully");
-    res.json({ success: true });
+    res
+      .status(200)
+      .json({ message: "Document stored successfully", data: { id, text } });
   } catch (err) {
     console.error("🔥 ADD DOCUMENT ERROR:", err.message);
     res.status(500).json({ error: err.message });

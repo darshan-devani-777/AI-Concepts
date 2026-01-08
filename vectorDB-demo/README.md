@@ -2,7 +2,7 @@
 
 ✅ Generate text embeddings using Xenova/all-MiniLM-L6-v2
 
-✅ Store embeddings in Qdrant
+✅ Store embeddings in Qdrant vector database
 
 ✅ Perform semantic search (Cosine similarity)
 

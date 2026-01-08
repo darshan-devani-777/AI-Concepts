@@ -41,7 +41,7 @@ PORT=3000
 curl -X POST http://localhost:3000/api/documents/add \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "doc-1",
+    "id": "3",
     "text": "pgvector is a PostgreSQL extension that enables efficient vector similarity search using cosine or L2 distance."
   }' | jq
 

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const API_KEY = process.env.GROQ_API_KEY;
 const BASE_URL = process.env.GROQ_BASE_URL;
@@ -6,14 +6,16 @@ const MODEL = process.env.MODEL;
 
 async function queryGroq(messages) {
   const res = await fetch(`${BASE_URL}/chat/completions`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
       model: MODEL,
       messages,
+      temperature: 0.3,
+      max_tokens: 500,
     }),
   });
 

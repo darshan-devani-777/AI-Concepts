@@ -15,7 +15,7 @@ async function queryGroq(messages) {
       model: MODEL,
       messages,
       temperature: 0.3,
-      max_tokens: 300,
+      max_tokens: 200,
     }),
   });
 

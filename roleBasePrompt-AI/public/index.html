@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File Converter</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .spinner {
+      border: 3px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+  </style>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-start justify-center p-6 text-gray-200">
+
+  <div class="bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full p-8">
+    <h2 class="text-3xl font-bold text-center text-indigo-400 mb-6">File Converter</h2>
+
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-6">
+      <div id="pdfTab" onclick="switchTab('pdf')" class="flex-1 text-center py-2 rounded-lg cursor-pointer font-semibold bg-indigo-600 text-white">PDF Converter</div>
+      <div id="aiTab" onclick="switchTab('ai')" class="flex-1 text-center py-2 rounded-lg cursor-pointer font-semibold bg-gray-700 text-indigo-300">AI Generator</div>
+    </div>
+
+    <!-- PDF Converter -->
+    <div id="pdfSection" class="space-y-4">
+      <select id="pdfType" class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="ppt" class="bg-gray-700">PPT → PDF</option>
+        <option value="word" class="bg-gray-700">Word → PDF</option>
+        <option value="excel" class="bg-gray-700">Excel → PDF</option>
+      </select>
+      <input type="file" id="pdfFile" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+      <button id="pdfBtn" onclick="uploadPDF()" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold py-3 rounded-lg relative">
+        Convert
+      </button>
+      <div id="pdfActions" class="hidden flex gap-3">
+        <button onclick="previewPDF()" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg">Preview</button>
+        <a id="pdfDownload" download class="flex-1">
+          <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 rounded-lg">Download</button>
+        </a>
+      </div>
+    </div>
+
+    <!-- AI Generator -->
+    <div id="aiSection" class="hidden space-y-4">
+      <select id="aiType" class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="ppt" class="bg-gray-700">PDF → PPT</option>
+        <option value="word" class="bg-gray-700">PDF → Word</option>
+        <option value="excel" class="bg-gray-700">PDF → Excel</option>
+      </select>
+      <input type="file" id="aiFile" class="w-full p-3 border border-gray-600 rounded-lg bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+      <button id="aiBtn" onclick="generateAI()" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold py-3 rounded-lg relative">
+        Generate
+      </button>
+      <div id="aiActions" class="hidden flex gap-3">
+        <button onclick="previewAI()" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg">Preview</button>
+        <a id="aiDownload" download class="flex-1">
+          <button class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 rounded-lg">Download</button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <iframe id="previewFrame" class="w-full h-[100vh] mt-6 rounded-lg border border-gray-600 shadow-md hidden bg-gray-800"></iframe>
+  </div>
+
+<script>
+  let pdfUrl="", aiUrl="";
+
+  function switchTab(tab){
+    document.getElementById('pdfTab').classList.remove('bg-indigo-600','text-white'); 
+    document.getElementById('aiTab').classList.remove('bg-indigo-600','text-white'); 
+    document.getElementById('pdfTab').classList.add('bg-gray-700','text-indigo-300'); 
+    document.getElementById('aiTab').classList.add('bg-gray-700','text-indigo-300'); 
+    document.getElementById('pdfSection').classList.add('hidden'); 
+    document.getElementById('aiSection').classList.add('hidden'); 
+    document.getElementById('previewFrame').classList.add('hidden');
+
+    if(tab==='pdf'){
+      document.getElementById('pdfTab').classList.add('bg-indigo-600','text-white'); 
+      document.getElementById('pdfSection').classList.remove('hidden');
+    } else {
+      document.getElementById('aiTab').classList.add('bg-indigo-600','text-white'); 
+      document.getElementById('aiSection').classList.remove('hidden');
+    }
+  }
+
+  async function uploadPDF(){
+    const file=document.getElementById('pdfFile').files[0];
+    const type=document.getElementById('pdfType').value;
+    if(!file) return alert("Select a file");
+    const formData=new FormData(); formData.append('file',file);
+    const btn=document.getElementById('pdfBtn');
+    btn.disabled=true; btn.innerHTML='Generating <span class="spinner"></span>';
+
+    try{
+      const res=await fetch(`/api/convert/${type}-to-pdf`,{method:'POST',body:formData});
+      const data=await res.json();
+      if(!data.url) return alert("PDF generation failed");
+
+      pdfUrl=data.url;
+      document.getElementById('pdfActions').classList.remove('hidden');
+      document.getElementById('pdfDownload').href=pdfUrl;
+
+      const iframe=document.getElementById('previewFrame');
+      iframe.src=pdfUrl; iframe.classList.remove('hidden'); iframe.scrollIntoView({behavior:'smooth'});
+    }catch(err){ console.error(err); alert("Error generating PDF"); }
+    finally{ btn.disabled=false; btn.innerHTML='Convert'; }
+  }
+
+  function previewPDF(){
+    if(!pdfUrl) return alert("PDF not ready");
+    const iframe=document.getElementById('previewFrame'); iframe.src=pdfUrl; iframe.classList.remove('hidden'); iframe.scrollIntoView({behavior:'smooth'});
+  }
+
+  async function generateAI(){
+    const file=document.getElementById('aiFile').files[0];
+    const type=document.getElementById('aiType').value;
+    if(!file) return alert("Select a PDF file");
+    const formData=new FormData(); formData.append('pdf',file);
+    const btn=document.getElementById('aiBtn');
+    btn.disabled=true; btn.innerHTML='Generating <span class="spinner"></span>';
+
+    try{
+      const res=await fetch(`/api/ai/pdf-to/${type}`,{method:'POST',body:formData});
+      const data=await res.json();
+      if(!data.url) return alert("Generation failed");
+
+      aiUrl=data.url;
+      document.getElementById('aiActions').classList.remove('hidden');
+      document.getElementById('aiDownload').href=aiUrl;
+
+      const iframe=document.getElementById('previewFrame');
+      iframe.src=aiUrl; iframe.classList.remove('hidden'); iframe.scrollIntoView({behavior:'smooth'});
+    }catch(err){ console.error(err); alert("Error generating file"); }
+    finally{ btn.disabled=false; btn.innerHTML='Generate'; }
+  }
+
+  function previewAI(){
+    if(!aiUrl) return alert("File not ready");
+    const iframe=document.getElementById('previewFrame'); iframe.src=aiUrl; iframe.classList.remove('hidden'); iframe.scrollIntoView({behavior:'smooth'});
+  }
+
+  // Initialize with PDF tab active
+  switchTab('pdf');
+</script>
+</body>
+</html>

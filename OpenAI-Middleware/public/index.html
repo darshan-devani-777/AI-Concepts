@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ChatGPT-Style Stream UI</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body
+    class="m-0 bg-slate-900 text-slate-200 flex flex-col h-screen font-sans"
+  >
+    <!-- Header -->
+    <header
+      class="flex justify-center py-3 border-b border-slate-600 font-semibold text-gray-300"
+    >
+      💬 ChatGPT-Style Streaming
+    </header>
+
+    <!-- Chat Area -->
+    <div id="chat" class="flex-1 overflow-y-auto flex justify-center">
+      <div id="chatInner" class="w-full max-w-3xl px-5 py-6"></div>
+    </div>
+
+    <!-- Input Box -->
+    <div class="flex justify-center">
+      <div class="w-full max-w-3xl p-4">
+        <div
+          class="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-full px-4 py-2 ring-1 ring-slate-700 focus-within:ring-1 focus-within:ring-slate-400 transition"
+        >
+          <textarea
+            id="input"
+            placeholder="Ask anything…"
+            rows="1"
+            class="flex-1 resize-none bg-transparent text-gray-200 placeholder:text-gray-500 focus:outline-none leading-6 py-2 max-h-40"
+            oninput="toggleSendButton()"
+          ></textarea>
+
+          <button
+            id="sendBtn"
+            onclick="send()"
+            disabled
+            class="shrink-0 w-9 h-9 rounded-full bg-white transition flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4 text-black"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 19V5m0 0l-6 6m6-6l6 6"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const chat = document.getElementById("chatInner");
+      const chatOuter = document.getElementById("chat");
+
+      let wordQueue = [];
+      let typingInterval = null;
+      let isFirstSentenceDone = false;
+      let streamFinished = false;
+
+      function addMessage(text, cls) {
+        const row = document.createElement("div");
+        row.className = "flex w-full";
+
+        const div = document.createElement("div");
+        div.className =
+          "inline-block max-w-[75%] px-4 py-3 mb-5 rounded-2xl leading-relaxed whitespace-pre-wrap text-white ml-auto " +
+          (cls === "user"
+            ? "bg-gray-800"
+            : "bg-slate-950 border border-slate-700");
+
+        div.textContent = text;
+
+        row.appendChild(div);
+        chat.appendChild(row);
+        chatOuter.scrollTop = chatOuter.scrollHeight;
+      }
+
+      function send() {
+        const input = document.getElementById("input");
+        const btn = document.getElementById("sendBtn");
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text, "user");
+        input.value = "";
+        btn.disabled = true;
+
+        streamFinished = false;
+        wordQueue = [];
+        clearInterval(typingInterval);
+        typingInterval = null;
+
+        const aiMsg = document.createElement("div");
+        aiMsg.className =
+          "max-w-[75%] px-4 py-3 mb-5 rounded-xl leading-relaxed bg-slate-950 border border-slate-700";
+
+        aiMsg.innerHTML = `
+    <span class="content text-white"></span>
+    <span class="inline-block w-3 h-3 rounded-full bg-slate-200 ml-1 animate-pulse"></span>
+  `;
+
+        chat.appendChild(aiMsg);
+        chatOuter.scrollTop = chatOuter.scrollHeight;
+
+        const contentSpan = aiMsg.querySelector(".content");
+
+        setTimeout(() => {
+          fetch("http://192.168.29.81:9090/api/chatGPT", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              task: {
+                type: "TB",
+                sub_type: "summarizer.max_words",
+                user_input: text,
+              },
+            }),
+          }).then((res) => {
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            readStream(reader, decoder);
+            startTyping(contentSpan);
+          });
+        }, 2000);
+      }
+
+      function readStream(reader, decoder) {
+        reader.read().then(({ done, value }) => {
+          if (done) return;
+
+          const chunk = decoder.decode(value, { stream: true });
+
+          chunk.split("\n\n").forEach((line) => {
+            if (line.startsWith("data: ")) {
+              const data = line.replace("data: ", "");
+              if (data === "[DONE]") {
+                streamFinished = true;
+                return;
+              }
+
+              try {
+                const json = JSON.parse(data);
+                if (json.type === "final") return;
+              } catch {
+                data
+                  .replace(/\r\n/g, "\n")
+                  .split(/(\n|(?<=\. )|(?<=\! )|(?<=\? ))/)
+                  .forEach((part) => {
+                    if (part !== "") wordQueue.push(part);
+                  });
+              }
+            }
+          });
+
+          readStream(reader, decoder);
+        });
+      }
+
+      function startTyping(contentSpan) {
+        if (typingInterval) return;
+
+        typingInterval = setInterval(() => {
+          if (wordQueue.length === 0) {
+            if (streamFinished) {
+              const cursor =
+                contentSpan.parentElement.querySelector(".animate-pulse");
+              if (cursor) cursor.remove();
+              clearInterval(typingInterval);
+              typingInterval = null;
+            }
+            return;
+          }
+
+          const next = wordQueue.shift();
+
+          if (next === "\n") {
+            contentSpan.innerHTML += "<br/>";
+          } else {
+            contentSpan.innerHTML += next;
+          }
+
+          chatOuter.scrollTop = chatOuter.scrollHeight;
+        }, 50);
+      }
+
+      function toggleSendButton() {
+        const input = document.getElementById("input");
+        const btn = document.getElementById("sendBtn");
+
+        // enable ONLY when user types something
+        btn.disabled = input.value.trim().length === 0;
+      }
+    </script>
+  </body>
+</html>

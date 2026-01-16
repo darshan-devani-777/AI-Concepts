@@ -1,0 +1,29 @@
+{
+    "SC": {
+      "summarizer": {
+        "long": "Please describe in the detailed description : INPUT_TEXT",
+        "short": "Summarize the main points of the below provided text. Focus on the key ideas, central theme, important characters or concepts, and the conclusion or outcome in very short sentences. Keep it simple and straightforward for easy understanding : INPUT_TEXT"
+      },
+      "translate": {
+        "translate": "INPUT_TEXT"
+      }
+    },
+    "TB": {
+      "grammar_checker": {
+        "grammar_checker": "Imagine you are a Grammar checker AI assistant tasked with improving the provided text. Given the text INPUT_TEXT, please revise it to ensure accurate grammar usage and enhance its overall clarity and coherence."
+      },
+      "paraphraser": {
+        "few": "Imagine you are a Paraphraser tasked with creating a concise and impactful rewrite of the provided paragraph with fewer efficiency. Your goal is to maintain the original meaning while enhancing clarity and readability. Please paraphrase the following paragraph: INPUT_TEXT",
+        "less": "Imagine you are a Paraphraser tasked with creating a concise and impactful rewrite of the provided paragraph with less efficiency. Your goal is to maintain the original meaning while enhancing clarity and readability. Please paraphrase the following paragraph: INPUT_TEXT",
+        "medium": "Imagine you are a Paraphraser tasked with creating a concise and impactful rewrite of the provided paragraph with medium efficiency. Your goal is to maintain the original meaning while enhancing clarity and readability. Please paraphrase the following paragraph: INPUT_TEXT",
+        "more": "Imagine you are a Paraphraser tasked with creating a concise and impactful rewrite of the provided paragraph with more efficiency. Your goal is to maintain the original meaning while enhancing clarity and readability. Please paraphrase the following paragraph: INPUT_TEXT"
+      },
+      "summarizer": {
+        "few_words": "Imagine you are a Summarizer for a cutting-edge AI company. Your task is to generate a concise and informative test summary with maximum 50-70 words that effectively captures the key points of a given piece of text. Use your expertise to summarize the following article: INPUT_TEXT",
+        "full_words": "Imagine you are a Summarizer for a cutting-edge AI company. Your task is to generate a concise and informative test summary with no word limit that effectively captures the key points of a given piece of text. Use your expertise to summarize the following article: INPUT_TEXT",
+        "less_words": "Imagine you are a Summarizer for a cutting-edge AI company. Your task is to generate a concise and informative test summary with maximum 30-40 words that effectively captures the key points of a given piece of text. Use your expertise to summarize the following article: INPUT_TEXT",
+        "max_words": "Imagine you are a Summarizer for a cutting-edge AI company. Your task is to generate a concise and informative test summary with maximum 70-90 words that effectively captures the key points of a given piece of text. Use your expertise to summarize the following article: INPUT_TEXT"
+      }
+    }
+  }
+  

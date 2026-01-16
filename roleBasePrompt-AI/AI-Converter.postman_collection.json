@@ -1,0 +1,599 @@
+{
+	"info": {
+		"_postman_id": "fde40d79-c704-4f66-85a2-959f061c91d0",
+		"name": "AI-Converter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4377776",
+		"_collection_link": "https://low66tecocraft.postman.co/workspace/API's-Demo~f7841d29-542b-439c-8271-f834a7cfab02/collection/4377776-fde40d79-c704-4f66-85a2-959f061c91d0?action=share&source=collection_link&creator=4377776"
+	},
+	"item": [
+		{
+			"name": "PDF-TO-PPT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pdf",
+							"type": "file",
+							"src": "/Users/jahnavijoshi/Downloads/dev-example .pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/ai/pdf-to/ppt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"ai",
+						"pdf-to",
+						"ppt"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "PDF-TO-PPT",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "pdf",
+									"type": "file",
+									"src": "/Users/jahnavijoshi/Downloads/dev-example .pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/ai/pdf-to/ppt",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ai",
+								"pdf-to",
+								"ppt"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "91"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"5b-HaXYdiyky34sRlTmRcQ7yGsMVTg\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 12 Jan 2026 07:09:56 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"✅ PPT generated\",\n    \"url\": \"http://localhost:3000/ppt/AI_PPT_1768201796928.pptx\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PDF-TO-WORD",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pdf",
+							"type": "file",
+							"src": "/Users/jahnavijoshi/Downloads/dev-example .pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/ai/pdf-to/word",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"ai",
+						"pdf-to",
+						"word"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "PDF-TO-WORD",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "pdf",
+									"type": "file",
+									"src": "/Users/jahnavijoshi/Downloads/dev-example .pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/ai/pdf-to/word",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ai",
+								"pdf-to",
+								"word"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "93"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"5d-Nh1c3HFU/ZCieC7QUPBacGrlFlk\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 12 Jan 2026 07:13:27 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"✅ WORD generated\",\n    \"url\": \"http://localhost:3000/docx/AI_DOC_1768202007539.docx\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PDF-TO-EXCEL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pdf",
+							"type": "file",
+							"src": "/Users/jahnavijoshi/Downloads/sample-report.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/ai/pdf-to/excel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"ai",
+						"pdf-to",
+						"excel"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "PDF-TO-EXCEL",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "pdf",
+									"type": "file",
+									"src": "/Users/jahnavijoshi/Downloads/sample-report.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/ai/pdf-to/excel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ai",
+								"pdf-to",
+								"excel"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "94"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"5e-9p+8wK7IpX4qP8aZMwPDKOW1qNc\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 12 Jan 2026 08:29:09 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"✅ EXCEL generated\",\n    \"url\": \"http://localhost:3000/xlsx/AI_XLS_1768206549738.xlsx\"\n}"
+				}
+			]
+		},
+		{
+			"name": "PPT-TO-PDF",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/jahnavijoshi/Desktop/AI-Concepts/roleBasePrompt-AI/uploads/ppt/AI_PPT_1768221552964.pptx"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/convert/ppt-to-pdf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"convert",
+						"ppt-to-pdf"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "PPT-TO-PDF",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/jahnavijoshi/Desktop/AI-Concepts/roleBasePrompt-AI/uploads/ppt/AI_PPT_1768221552964.pptx"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/convert/ppt-to-pdf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"convert",
+								"ppt-to-pdf"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "118"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"76-3loTQ3pzibE2xlRpIFLDHplEYI0\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 13 Jan 2026 04:59:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"✅ PDF generated\",\n    \"url\": \"https://84e5b751e42d.ngrok-free.app/pdf/1768280365440-AI_PPT_1768221552964.pdf\"\n}"
+				}
+			]
+		},
+		{
+			"name": "WORD-TO-PDF",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/jahnavijoshi/Desktop/AI-Concepts/roleBasePrompt-AI/uploads/docx/AI_DOC_1768279403908.docx"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/convert/word-to-pdf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"convert",
+						"word-to-pdf"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "WORD-TO-PDF",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/jahnavijoshi/Desktop/AI-Concepts/roleBasePrompt-AI/uploads/docx/AI_DOC_1768279403908.docx"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/convert/word-to-pdf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"convert",
+								"word-to-pdf"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "118"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"76-I4wf6SF3L/3q/VEEqEKq2UaS9LU\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 13 Jan 2026 05:04:06 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"✅ PDF generated\",\n    \"url\": \"https://84e5b751e42d.ngrok-free.app/pdf/1768280642279-AI_DOC_1768279403908.pdf\"\n}"
+				}
+			]
+		},
+		{
+			"name": "EXCEL-TO-PDF",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/jahnavijoshi/Desktop/AI-Concepts/roleBasePrompt-AI/uploads/xlsx/AI_XLS_1768221383024.xlsx"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/convert/excel-to-pdf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"convert",
+						"excel-to-pdf"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "EXCEL-TO-PDF",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/jahnavijoshi/Desktop/AI-Concepts/roleBasePrompt-AI/uploads/xlsx/AI_XLS_1768221383024.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/convert/excel-to-pdf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"convert",
+								"excel-to-pdf"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "118"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"76-PZZqIPvKbYa+T8cP/VWcL54uWwg\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 13 Jan 2026 05:43:58 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"✅ PDF generated\",\n    \"url\": \"https://84e5b751e42d.ngrok-free.app/pdf/1768283031376-AI_XLS_1768221383024.pdf\"\n}"
+				}
+			]
+		}
+	]
+}

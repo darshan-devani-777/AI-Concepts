@@ -8,6 +8,7 @@ const authMiddleware = require("./src/middleware/auth");
 const rateLimiter = require("./src/middleware/rateLimiter");
 const validateRequest = require("./src/middleware/validateRequest");
 const { startChatWorker } = require("./src/workers/chatWorker");
+const { setupBullDashboard } = require("./src/dashboard/bullDashboard");
 
 dotenv.config();
 
@@ -35,6 +36,13 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "public")));
 
+// Bull Board Dashboard for queue monitoring
+try {
+  setupBullDashboard(app);
+} catch (error) {
+  console.error("❌ Failed to setup Bull Board dashboard:", error.message);
+}
+
 // API Gateway-style pipeline for all /api routes:
 //  - Auth (x-api-key)
 //  - Rate limiting (Redis)
@@ -49,6 +57,7 @@ app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server started at http://localhost:${PORT}`);
   console.log(`📡 API Gateway: http://localhost:${PORT}/api`);
   console.log(`💀 DLQ Management: http://localhost:${PORT}/api/dlq`);
+  console.log(`📊 Queue Dashboard: http://localhost:${PORT}/admin/queues`);
   
   // Start worker pool
   try {

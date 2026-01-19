@@ -244,3 +244,231 @@ Dead-Letter Queue (DLQ)
 ✅ **Documented**: Comprehensive documentation created
 ✅ **Production Ready**: Error handling and logging in place
 
+<!-- System Flow Diagram -->
+
+┌────────────┐
+│   Client   │
+└─────┬──────┘
+      │ HTTP Request
+      ▼
+┌──────────────────────────────┐
+│        API Gateway           │
+│ ───────────────────────────  │
+│ 1. Auth (x-api-key)          │
+│ 2. Rate Limit (Redis)        │
+│ 3. Request Validation        │
+│ 4. Logging                   │
+└─────┬────────────────────────┘
+      │
+      ├───────────────┐
+      │               │
+      ▼               ▼
+┌──────────────┐   ┌────────────────────┐
+│ Redis Cache  │   │ BullMQ Queue       │
+│ (TTL based)  │   │ chat-processing    │
+└─────┬────────┘   └──────────┬─────────┘
+      │ Cache Miss              │
+      ▼                         ▼
+┌────────────────────────────────────────┐
+│              Worker Pool               │
+│ ────────────────────────────────────── │
+│ • Concurrency Control                  │
+│ • Rate Limiting                        │
+│ • Retry + Backoff                      │
+└───────────┬────────────────────────────┘
+            │
+            ▼
+┌──────────────────────────────┐
+│        RAG Pipeline          │
+│ ───────────────────────────  │
+│ • Qdrant Vector Search       │
+│ • Re-ranking                 │
+│ • Fallback Handling          │
+└───────────┬──────────────────┘
+            │
+            ▼
+┌──────────────────────────────┐
+│        Groq LLM API          │
+│ (OpenAI-compatible)          │
+└───────────┬──────────────────┘
+            │
+      ┌─────▼─────┐
+      │ Success   │
+      │ Response  │
+      └─────┬─────┘
+            │
+            ▼
+        Client
+
+Failure Path:
+────────────
+Worker Failure
+      │
+      ▼
+┌──────────────────────────────┐
+│   Dead Letter Queue (DLQ)    │
+│ • Error Reason               │
+│ • Stack Trace                │
+│ • Retry Count                │
+└──────────────────────────────┘
+
+👇
+
+<!-- 🔄 Overall System Flow (High Level) -->
+
+Client → API Gateway → (Cache / Queue) → Worker → LLM + RAG → Response
+
+<!-- 1️⃣ Client Request Flow -->
+
+Client /api/chatGPT ya /api/chatGPT/queue hit karta hai
+
+Request API Gateway pe aati hai
+
+<!-- 2️⃣ API Gateway Pipeline Flow -->
+
+Order strictly follow hota hai:
+
+Authentication Middleware
+
+x-api-key header validate hota hai
+
+Invalid key → ❌ request reject
+
+Rate Limiting (Redis)
+
+Sliding window algorithm use hota hai
+
+Limit exceed → ❌ 429 Too Many Requests
+
+Request Validation
+
+Payload schema validate hota hai
+
+Encrypted / Raw mode check
+
+Invalid payload → ❌ error response
+
+Logging
+
+Har step ka structured log (auth, rate, validation)
+
+<!-- 3️⃣ Route Decision -->
+🔹 A. Streaming Route (/api/chatGPT)
+
+Cache check (Redis)
+
+✅ Cache hit → direct response
+
+❌ Cache miss → LLM call
+
+Groq LLM call (streaming)
+
+Optional RAG (Qdrant search + re-rank)
+
+Response stream back to client
+
+Cache update (TTL based)
+
+🔹 B. Queue Route (/api/chatGPT/queue)
+
+Request BullMQ queue (chat-processing) mein add hoti hai
+
+Client ko Job ID milta hai
+
+Client /api/queue/jobs/:jobId se status check karta hai
+
+<!-- 4️⃣ Queue Processing Flow (BullMQ) -->
+
+Job queue mein wait karti hai
+
+Worker free hota hai → job pick karta hai
+
+Queue events fire hote hain:
+
+- active
+- completed
+- failed
+- stalled
+
+<!-- 5️⃣ Worker Execution Flow -->
+
+Worker rate limit check
+
+Job process start
+
+RAG Pipeline
+
+Qdrant vector search
+
+Re-ranking
+
+Fallback if Qdrant down
+
+Groq LLM call
+
+Response generate
+
+Job success → ✅ completed
+
+<!-- 6️⃣ Retry & Failure Flow -->
+
+Job fail hui ❌
+
+Exponential backoff retry
+
+Max attempts cross → job DLQ mein move
+
+<!-- 7️⃣ Dead Letter Queue (DLQ) Flow -->
+
+Failed job DLQ mein store hoti hai
+
+Failure details saved:
+
+- Error reason
+- Stack trace
+- Attempt count
+
+APIs available:
+
+- List DLQ jobs
+- View job details
+- Retry job
+- Clear DLQ (confirmation ke saath)
+
+<!-- 8️⃣ Monitoring & Observability -->
+
+- Gateway logs
+- Redis health logs
+- Queue stats
+- Worker execution time
+- DLQ activity logs
+- Error stack traces
+
+<!-- 🔁 Summary One-Line Flow -->
+
+Client → Gateway (Auth → Rate → Validate) → Cache / Queue → Worker → RAG + Groq → Response / DLQ
+
+
+<!-- BullMQ Dashboard -->
+**Installed packages: @bull-board/api and @bull-board/express (v6.16.2)**
+
+**Created src/dashboard/bullDashboard.js:**
+Sets up Bull Board for BullMQ queues
+Monitors both chat-processing and chat-processing-dlq
+Uses BullMQAdapter for each queue
+Mounts the dashboard at /admin/queues
+
+**Integrated into server.js:**
+Added import and setup call
+Added dashboard URL to startup logs
+
+**Dashboard features**
+Real-time queue monitoring
+Job status (waiting, active, completed, failed)
+Job details and retry information
+Queue statistics
+Both queues visible in one dashboard
+
+**Access**
+After starting the server, access the dashboard at:
+http://localhost:9090/admin/queues/

@@ -58,18 +58,23 @@ router.post("/:type-to-pdf", upload.single("file"), async (req, res) => {
       process.env.PUBLIC_BASE_URL ||
       `http://localhost:${process.env.PORT || 3000}`;
 
-    // 🔥 DOWNLOAD URL
-    const downloadUrl = `${BASE_URL}/pdf/${fileName}`;
+    const previewUrl = `${BASE_URL}/pdf-preview/${fileName}`;
+    const downloadUrl = `${BASE_URL}/api/convert/pdf/${fileName}`;
 
     console.log({
       message: "✅ PDF generated",
-      url: downloadUrl,
+      fileName,
+      previewUrl,
+      downloadUrl,
       durationMs: Date.now() - start,
     });
 
+    // preview + download URLs
     res.json({
       message: "✅ PDF generated",
-      url: downloadUrl,
+      fileName,
+      previewUrl,
+      downloadUrl,
     });
   } catch (err) {
     console.error("❌ Convert to PDF failed:", err);
@@ -87,6 +92,8 @@ router.get("/pdf/:filename", (req, res) => {
     "pdf",
     req.params.filename
   );
+
+  console.log("🔍 Looking for PDF at:", filePath);
 
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({ error: "PDF not found" });

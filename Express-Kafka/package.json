@@ -1,0 +1,43 @@
+{
+  "name": "express-kafka-demo",
+  "version": "1.0.0",
+  "description": "Simple Express.js backend with Apache Kafka integration",
+  "main": "src/app.js",
+  "scripts": {
+  "start": "nodemon src/app.js",
+  "dev": "nodemon src/app.js",
+    "consumer": "node src/kafka/consumer.js",
+    "producer": "node src/kafka/producer.js",
+    "test": "node test-producer.js",
+    "check-events": "node check-events.js",
+    "setup": "./setup.sh",
+    "kafka:start": "./kafka-helper.sh start",
+    "kafka:stop": "echo 'Stop Kafka manually: CTRL+C in Kafka terminal'",
+    "kafka:status": "./kafka-helper.sh status",
+    "kafka:topics": "./kafka-helper.sh topics",
+    "kafka:create-topics": "./kafka-helper.sh create-topics",
+    "kafka:consume": "./kafka-helper.sh consume",
+    "kafka:consume-notifications": "./kafka-helper.sh consume-notifications"
+},
+  "keywords": [
+    "express",
+    "kafka",
+    "nodejs",
+    "backend",
+    "demo"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "kafkajs": "^2.2.4",
+    "chalk": "^4.1.2",
+    "winston": "^3.11.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

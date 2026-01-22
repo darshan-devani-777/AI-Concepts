@@ -1,0 +1,565 @@
+{
+  "info": {
+    "_postman_id": "08d1fdd1-d8ee-4196-bc81-d3a8b95fc9c5",
+    "name": "ChatGPT-Middleware",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "4377776",
+    "_collection_link": "https://go.postman.co/collection/4377776-08d1fdd1-d8ee-4196-bc81-d3a8b95fc9c5?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create Prompt - Token Mode",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "4093f7e4492aabe3664d115166737a704bcf159f48c9dc10ac1dd1c68bb90beb",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"SC\",\n  \"token\": \"83x2ThhK+tPuy2vaERifvDtvpiu6aCYljmgz4MlvYperoQP+Ptqxc+oBLHJ7L6bS/0X8tFbZCGpsY4NTwMc6OK5AmOat0Csj0EXpJkLfhelluK5Th44fD5GDa/5Vt2F1JyzpnZn+uMjifykhnFNFSltYMsn8xEmFSela06BzNWxuPJDnsq7bRbuanojkIwmlZAxsut5oFTsjC61geIG2czWQUamjiUA5QrLkrdwO0007y2W/LqMMJQXP90mzvQyG\"\n}\n\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://192.168.29.88:9090/api/chatGPT",
+          "protocol": "http",
+          "host": [
+            "192",
+            "168",
+            "29",
+            "88"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "chatGPT"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Create Prompt",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"SC\",\n  \"token\": \"83x2ThhK+tPuy2vaERifvDtvpiu6aCYljmgz4MlvYperoQP+Ptqxc+oBLHJ7L6bS/0X8tFbZCGpsY4NTwMc6OK5AmOat0Csj0EXpJkLfhelluK5Th44fD5GDa/5Vt2F1JyzpnZn+uMjifykhnFNFSltYMsn8xEmFSela06BzNWzvCOHsC3Kd7ddBdqE2n/elrHo4DFW6fA2qcDimkV5Lf6mZWzy7u2/E64GLK5Ib8aDT/fNaJlUr9uiDWUTYJ0y87J+D1UiIJJVpjXd2G1Nymw==\"\n}\n\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:9090/api/chatGPT",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "chatGPT"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "173"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"ad-xDkZMea9xtLav44Y9HvPEOC62Sk\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 18 Dec 2025 09:22:53 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": true,\n    \"message\": \"The response has been successfully encrypted...\",\n    \"data\": \"M1lavDAPo3BOdReCc9ouStYleRo8RGWbYyNiKFxYHYypywoz7AabmsKOeH7hbBH/ird5fUITCTbjjwLXgjIwnA==\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Create Prompt - Raw Mode",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "4093f7e4492aabe3664d115166737a704bcf159f48c9dc10ac1dd1c68bb90beb",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"SC\",\n  \"task\": {\n    \"type\": \"SC\",\n    \"sub_type\": \"summarizer.short\",\n    \"user_input\": \"Artificial intelligence is transforming the world.\"\n  }\n}\n\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://192.168.29.88:9090/api/chatGPT",
+          "protocol": "http",
+          "host": [
+            "192",
+            "168",
+            "29",
+            "88"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "chatGPT"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "New Request",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Full form of NPM in Node.js\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/chat",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "chat"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "190"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"be-Iuuomqfa99AY9KPBSKpCLco/Wtc\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 02 Jan 2026 10:22:36 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"reply\": \"The full form of NPM in Node.js is:\\n\\nNode Package Manager.\\n\\nNPM is the default package manager for Node.js, used to install, update, and manage packages for Node.js projects.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Add Queue",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "4093f7e4492aabe3664d115166737a704bcf159f48c9dc10ac1dd1c68bb90beb",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n       \"type\": \"SC\",\n       \"task\": {\n         \"type\": \"SC\",\n         \"sub_type\": \"summarizer.short\",\n         \"user_input\": \"Technology is transforming the world\"\n       }\n} ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://192.168.29.88:9090/api/chatGPT/queue",
+          "protocol": "http",
+          "host": [
+            "192",
+            "168",
+            "29",
+            "88"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "chatGPT",
+            "queue"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Add Queue",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "4093f7e4492aabe3664d115166737a704bcf159f48c9dc10ac1dd1c68bb90beb",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n       \"type\": \"SC\",\n       \"task\": {\n         \"type\": \"SC\",\n         \"sub_type\": \"summarizer.short\",\n         \"user_input\": \"Technology is transforming the world\"\n       }\n} ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://192.168.29.88:9090/api/chatGPT/queue",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "29",
+                "88"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "chatGPT",
+                "queue"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "60"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "59"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "112"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"70-PriOrpwmhBJFfvs5Rp29cUJn4v8\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 15 Jan 2026 11:51:59 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": true,\n    \"message\": \"Request queued successfully\",\n    \"data\": {\n        \"jobId\": \"1\",\n        \"estimatedWaitTime\": \"Processing...\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Queue Stats",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "4093f7e4492aabe3664d115166737a704bcf159f48c9dc10ac1dd1c68bb90beb",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://192.168.29.88:9090/api/queue/stats",
+          "protocol": "http",
+          "host": [
+            "192",
+            "168",
+            "29",
+            "88"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "queue",
+            "stats"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Queue Stats",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "4093f7e4492aabe3664d115166737a704bcf159f48c9dc10ac1dd1c68bb90beb",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://192.168.29.88:9090/api/queue/stats",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "29",
+                "88"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "queue",
+                "stats"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "60"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "59"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "176"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"b0-YAc8nWdCcl1M1Hf/fuq+Kt8t2tc\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 15 Jan 2026 12:01:03 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": true,\n    \"data\": {\n        \"mainQueue\": {\n            \"waiting\": 0,\n            \"active\": 0,\n            \"completed\": 1,\n            \"failed\": 0,\n            \"total\": 1\n        },\n        \"dlq\": {\n            \"waiting\": 0,\n            \"active\": 0,\n            \"total\": 0\n        },\n        \"timestamp\": \"2026-01-15T12:01:03.023Z\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "DLQ Jobs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "4093f7e4492aabe3664d115166737a704bcf159f48c9dc10ac1dd1c68bb90beb",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://192.168.29.88:9090/api/dlq/jobs",
+          "protocol": "http",
+          "host": [
+            "192",
+            "168",
+            "29",
+            "88"
+          ],
+          "port": "9090",
+          "path": [
+            "api",
+            "dlq",
+            "jobs"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "DLQ Jobs",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "4093f7e4492aabe3664d115166737a704bcf159f48c9dc10ac1dd1c68bb90beb",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://192.168.29.88:9090/api/dlq/jobs",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "29",
+                "88"
+              ],
+              "port": "9090",
+              "path": [
+                "api",
+                "dlq",
+                "jobs"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Access-Control-Allow-Credentials",
+              "value": "true"
+            },
+            {
+              "key": "X-RateLimit-Limit",
+              "value": "60"
+            },
+            {
+              "key": "X-RateLimit-Remaining",
+              "value": "59"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "140"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"8c-fUKdKCK0Ijoat/VF4LKU+bn0H1c\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 15 Jan 2026 12:03:13 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": true,\n    \"data\": {\n        \"jobs\": [],\n        \"pagination\": {\n            \"start\": 0,\n            \"limit\": 50,\n            \"total\": 0\n        },\n        \"summary\": {\n            \"waiting\": 0,\n            \"failed\": 0,\n            \"active\": 0,\n            \"completed\": 0\n        }\n    }\n}"
+        }
+      ]
+    }
+  ]
+}

@@ -29,8 +29,10 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/ai", aiPdfAutoConvert);
 app.use("/api/convert", fileToPdfRoutes);
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(
-    `🚀 Server running on http://localhost:${process.env.PORT || 3000}`
-  );
+const PORT = process.env.PORT || 3000;
+const HOST = "0.0.0.0";
+
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server running on http://${HOST}:${PORT}`);
 });
+

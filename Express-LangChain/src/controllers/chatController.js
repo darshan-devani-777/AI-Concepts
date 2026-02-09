@@ -1,4 +1,4 @@
-const { getTranslation } = require('../models/chatModel');
+const { getResponse } = require('../models/chatModel');
 const { v4: uuidv4 } = require('uuid');
 
 const chatHistories = {};
@@ -65,7 +65,7 @@ async function askQuestion(req, res) {
       return res.json({ answer: "You previously asked: " + previousQuestions.join(', ') });
     }
 
-    const result = await getTranslation(history);
+    const result = await getResponse(history);
 
     history.push({ role: 'assistant', content: result });
 

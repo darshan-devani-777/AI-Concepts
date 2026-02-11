@@ -2,20 +2,31 @@ const { getResponse } = require('../models/chatModel');
 const { v4: uuidv4 } = require('uuid');
 
 const chatHistories = {};
-const sessionTimeout = 30 * 60 * 1000;
+const sessionTimeout = 2 * 60 * 1000;
 
 function cleanupSessions() {
   const now = Date.now();
   for (const sessionId in chatHistories) {
-    const lastActivity = chatHistories[sessionId].lastActivity;
+    const session = chatHistories[sessionId];
+    if (!session) continue;
+
+    const { lastActivity, createdAt } = session;
     if (now - lastActivity > sessionTimeout) {
-      console.log(`Session ${sessionId} expired and removed.`);
+      const expiredAt = now;
+
+      console.log('Session expired and removed:', {
+        sessionId,
+        createdAt,
+        lastActivity,
+        expiredAt
+      });
+
       delete chatHistories[sessionId];
     }
   }
 }
 
-setInterval(cleanupSessions, 10 * 60 * 1000);
+setInterval(cleanupSessions, 3 * 60 * 1000);
 
 async function askQuestion(req, res) {
   const { question } = req.body;
@@ -29,48 +40,63 @@ async function askQuestion(req, res) {
   }
 
   let sessionId = req.cookies.sessionId;
-
   if (!sessionId) {
     sessionId = uuidv4();
     res.cookie('sessionId', sessionId, { maxAge: sessionTimeout });
-    console.log(`New session created: ${sessionId}`);
+
+    const createdAt = Date.now();
+    const expiresAt = createdAt + sessionTimeout;
+
+    console.log('New session created:', { sessionId, createdAt, expiresAt });
+
+    console.log('Session will expire at:', { sessionId, expiresAt: new Date(expiresAt).toLocaleString() });
   }
 
   if (!chatHistories[sessionId]) {
-    chatHistories[sessionId] = [
-      {
-        role: 'system',
-        content:
-          "Summarize the main points of the below provided text. Focus on the key ideas, central theme, important characters or concepts, and the conclusion or outcome in very short sentences. Keep it simple and straightforward for easy understanding.",
-      },
-    ];
+    chatHistories[sessionId] = {
+      createdAt: Date.now(),
+      lastActivity: Date.now(),
+      messages: [
+        {
+          role: 'system',
+          content:
+            "Summarize the main points of the below provided text. Focus on the key ideas, central theme, important characters or concepts, and the conclusion or outcome in very short sentences. Keep it simple and straightforward for easy understanding.",
+        },
+      ],
+    };
   }
 
-  let history = chatHistories[sessionId];
+  const session = chatHistories[sessionId];
 
-  chatHistories[sessionId].lastActivity = Date.now();
-
-  history.push({ role: 'user', content: question });
+  session.lastActivity = Date.now();
+  session.messages.push({ role: 'user', content: question });
 
   try {
-    console.log('Generated Prompt with Memory (history):', history);
+    console.log('Generated Prompt with Memory (messages):', session.messages);
 
-    if (question.toLowerCase() === "what did i ask earlier?" || question.toLowerCase() === "what questions did i ask?") {
-      const previousQuestions = history.filter(msg => msg.role === 'user').map(msg => msg.content);
+    if (
+      question.toLowerCase() === 'what did i ask earlier?' ||
+      question.toLowerCase() === 'what questions did i ask?'
+    ) {
+      const previousQuestions = session.messages
+        .filter((msg) => msg.role === 'user')
+        .map((msg) => msg.content);
 
       if (previousQuestions.length === 0) {
         return res.json({ answer: "You haven't asked any questions yet." });
       }
 
-      return res.json({ answer: "You previously asked: " + previousQuestions.join(', ') });
+      return res.json({
+        answer: 'You previously asked: ' + previousQuestions.join(', '),
+      });
     }
 
-    const result = await getResponse(history);
+    const result = await getResponse(session.messages);
 
-    history.push({ role: 'assistant', content: result });
+    session.messages.push({ role: 'assistant', content: result });
 
     console.log('Generated response:', { answer: result });
-    console.log("===== REQUEST END =====\n");
+    console.log('===== REQUEST END =====\n');
 
     return res.json({ answer: result });
   } catch (error) {
